@@ -1,5 +1,5 @@
 {
-    "name": "sentinel-client",
+    "name": "evo-sentinel",
     "version": "1.0.0",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
