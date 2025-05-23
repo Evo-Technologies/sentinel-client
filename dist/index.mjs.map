@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.ts"],"sourcesContent":["export function add(a: number, b: number): number {\r\n  return a + b;\r\n}\r\n\r\nconsole.log(add(3, 6));"],"mappings":";AAAO,SAAS,IAAI,GAAW,GAAmB;AAChD,SAAO,IAAI;AACb;AAEA,QAAQ,IAAI,IAAI,GAAG,CAAC,CAAC;","names":[]}
