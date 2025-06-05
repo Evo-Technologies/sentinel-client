@@ -113,12 +113,12 @@ var EvoVoiceIntegration;
     }
     listCustomers(request) {
       return __async(this, null, function* () {
-        return yield this.sendMessage("listCustomers", request);
+        return yield this.sendMessage("ListCustomers", request);
       });
     }
     getCustomer(request) {
       return __async(this, null, function* () {
-        return yield this.sendMessage("getCustomer", request);
+        return yield this.sendMessage("GetCustomer", request);
       });
     }
   }
