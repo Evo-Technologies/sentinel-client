@@ -1,6 +1,6 @@
 {
     "name": "evo-sentinel",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
@@ -8,8 +8,7 @@
         "dist"
     ],
     "scripts": {
-        "build": "npm version patch && tsup",
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsup",
         "publish": "npm version patch && tsup && npm login && npm publish"
     },
     "repository": {

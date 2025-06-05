@@ -1,5 +1,4 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
-
-console.log(add(3, 6));
+export { SentinelClient } from "./client";
+export { SentinelProject } from "./project";
+export { SentinelIntegration } from "./integration";
+export * from "./autogen";
