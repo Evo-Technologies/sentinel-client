@@ -8,10 +8,10 @@ export namespace EvoVoiceIntegration {
             super(project, idOrName);
         }
     async listCustomers(request:ListCustomersRequest) : Promise<ListCustomersResponse> {
-        return await this.sendMessage('ListCustomers', request);
+        return await this.sendRequest('ListCustomers', request);
     }
     async getCustomer(request:GetCustomerRequest) : Promise<GetCustomerResponse> {
-        return await this.sendMessage('GetCustomer', request);
+        return await this.sendRequest('GetCustomer', request);
     }
     }
     export interface ListCustomersRequest {
@@ -279,6 +279,43 @@ export namespace EvoVoiceIntegration {
         dateLastModified?:string,
         createdBy?:string,
         lastModifiedBy?:string,
+    }
+}
+export namespace GptIntegration {
+    export class Integration extends SentinelIntegration {
+        constructor(project: SentinelProject, idOrName:string) {
+            super(project, idOrName);
+        }
+    async completeChatAsync(request:CompleteChatAsyncRequest) : Promise<CompleteChatAsyncResponse> {
+        return await this.sendRequest('CompleteChatAsync', request);
+    }
+    }
+    export interface CompleteChatAsyncRequest {
+        messages?:{
+                role?:string,
+                content?:string,
+                name?:string,
+            }[],
+        temperature?:number,
+    }
+    export interface CompleteChatAsyncResponse {
+        content?:{
+                text?:string,
+            }[],
+    }
+}
+export namespace FreshdeskIntegration {
+    export class Integration extends SentinelIntegration {
+        constructor(project: SentinelProject, idOrName:string) {
+            super(project, idOrName);
+        }
+    async listAllTickets(request:ListAllTicketsRequest) : Promise<ListAllTicketsResponse> {
+        return await this.sendRequest('ListAllTickets', request);
+    }
+    }
+    export interface ListAllTicketsRequest {
+    }
+    export interface ListAllTicketsResponse {
     }
 }
 

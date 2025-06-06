@@ -9,7 +9,7 @@ export class SentinelIntegration {
         this.idOrName = idOrName;
     }
 
-    async sendMessage(name:string, message: any) {
-        return await this.project.client.sendMessage(this.project.id, this.idOrName, name, message);
+    async sendRequest(name:string, request: any) {
+        return await this.project.client.sendRequest(this.project.id, this.idOrName, name, request);
     }
 }

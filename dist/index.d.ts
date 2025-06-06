@@ -2,7 +2,7 @@ declare class SentinelIntegration {
     idOrName: string;
     project: SentinelProject;
     constructor(project: SentinelProject, idOrName: string);
-    sendMessage(name: string, message: any): Promise<any>;
+    sendRequest(name: string, request: any): Promise<any>;
 }
 
 declare class SentinelProject {
@@ -19,7 +19,7 @@ declare class SentinelClient {
     endpoint: string;
     constructor(apiKey: string, endpoint?: string);
     getProject(projectId: string): SentinelProject;
-    sendMessage(projectId: string, integrationNameOrId: string, messageName: string, message: any): Promise<any>;
+    sendRequest(projectId: string, integrationNameOrId: string, requestName: string, request: any): Promise<any>;
 }
 
 declare namespace EvoVoiceIntegration {
@@ -292,5 +292,34 @@ declare namespace EvoVoiceIntegration {
         lastModifiedBy?: string;
     }
 }
+declare namespace GptIntegration {
+    class Integration extends SentinelIntegration {
+        constructor(project: SentinelProject, idOrName: string);
+        completeChatAsync(request: CompleteChatAsyncRequest): Promise<CompleteChatAsyncResponse>;
+    }
+    interface CompleteChatAsyncRequest {
+        messages?: {
+            role?: string;
+            content?: string;
+            name?: string;
+        }[];
+        temperature?: number;
+    }
+    interface CompleteChatAsyncResponse {
+        content?: {
+            text?: string;
+        }[];
+    }
+}
+declare namespace FreshdeskIntegration {
+    class Integration extends SentinelIntegration {
+        constructor(project: SentinelProject, idOrName: string);
+        listAllTickets(request: ListAllTicketsRequest): Promise<ListAllTicketsResponse>;
+    }
+    interface ListAllTicketsRequest {
+    }
+    interface ListAllTicketsResponse {
+    }
+}
 
-export { EvoVoiceIntegration, SentinelClient, SentinelIntegration, SentinelProject };
+export { EvoVoiceIntegration, FreshdeskIntegration, GptIntegration, SentinelClient, SentinelIntegration, SentinelProject };

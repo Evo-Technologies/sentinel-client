@@ -41,6 +41,8 @@ var __async = (__this, __arguments, generator) => {
 var index_exports = {};
 __export(index_exports, {
   EvoVoiceIntegration: () => EvoVoiceIntegration,
+  FreshdeskIntegration: () => FreshdeskIntegration,
+  GptIntegration: () => GptIntegration,
   SentinelClient: () => SentinelClient,
   SentinelIntegration: () => SentinelIntegration,
   SentinelProject: () => SentinelProject
@@ -68,9 +70,9 @@ var SentinelClient = class {
   getProject(projectId) {
     return new SentinelProject(this, projectId);
   }
-  sendMessage(projectId, integrationNameOrId, messageName, message) {
+  sendRequest(projectId, integrationNameOrId, requestName, request) {
     return __async(this, null, function* () {
-      const uri = `${this.endpoint}/projects/${projectId}/integrations/${integrationNameOrId}/messages/${messageName}`;
+      const uri = `${this.endpoint}/projects/${projectId}/integrations/${integrationNameOrId}/requests/${requestName}`;
       console.log("fetching", uri);
       const r = yield fetch(uri, {
         method: "POST",
@@ -79,13 +81,13 @@ var SentinelClient = class {
           "Accept": "application/json",
           "Sentinel-Api-Key": this.apiKey
         },
-        body: JSON.stringify(message)
+        body: JSON.stringify(request)
       });
       if (r.ok) {
         return yield r.json();
       } else {
-        const messageText = yield r.text();
-        throw new Error(`${r.status} [${r.statusText}]: ${messageText}`);
+        const errorText = yield r.text();
+        throw new Error(`${r.status} [${r.statusText}]: ${errorText}`);
       }
     });
   }
@@ -97,9 +99,9 @@ var SentinelIntegration = class {
     this.project = project;
     this.idOrName = idOrName;
   }
-  sendMessage(name, message) {
+  sendRequest(name, request) {
     return __async(this, null, function* () {
-      return yield this.project.client.sendMessage(this.project.id, this.idOrName, name, message);
+      return yield this.project.client.sendRequest(this.project.id, this.idOrName, name, request);
     });
   }
 };
@@ -113,20 +115,50 @@ var EvoVoiceIntegration;
     }
     listCustomers(request) {
       return __async(this, null, function* () {
-        return yield this.sendMessage("ListCustomers", request);
+        return yield this.sendRequest("ListCustomers", request);
       });
     }
     getCustomer(request) {
       return __async(this, null, function* () {
-        return yield this.sendMessage("GetCustomer", request);
+        return yield this.sendRequest("GetCustomer", request);
       });
     }
   }
   EvoVoiceIntegration2.Integration = Integration;
 })(EvoVoiceIntegration || (EvoVoiceIntegration = {}));
+var GptIntegration;
+((GptIntegration2) => {
+  class Integration extends SentinelIntegration {
+    constructor(project, idOrName) {
+      super(project, idOrName);
+    }
+    completeChatAsync(request) {
+      return __async(this, null, function* () {
+        return yield this.sendRequest("CompleteChatAsync", request);
+      });
+    }
+  }
+  GptIntegration2.Integration = Integration;
+})(GptIntegration || (GptIntegration = {}));
+var FreshdeskIntegration;
+((FreshdeskIntegration2) => {
+  class Integration extends SentinelIntegration {
+    constructor(project, idOrName) {
+      super(project, idOrName);
+    }
+    listAllTickets(request) {
+      return __async(this, null, function* () {
+        return yield this.sendRequest("ListAllTickets", request);
+      });
+    }
+  }
+  FreshdeskIntegration2.Integration = Integration;
+})(FreshdeskIntegration || (FreshdeskIntegration = {}));
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   EvoVoiceIntegration,
+  FreshdeskIntegration,
+  GptIntegration,
   SentinelClient,
   SentinelIntegration,
   SentinelProject
